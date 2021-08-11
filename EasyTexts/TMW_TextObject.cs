@@ -7,14 +7,6 @@ using UnityEngine.UI;
 public class TMW_TextObject : MonoBehaviour
 {
     private Text UItext;
-
-    [Header("General text options")]
-    [TextArea]
-    public string initialText;
-    public bool customConfig = false;
-    public Font initialFont;
-    public TextAnchor initialAlignment;
-    public Color initialColor = Color.black;
     public string text {
         set {
             UItext.text = value;
@@ -49,16 +41,17 @@ public class TMW_TextObject : MonoBehaviour
     }
     [Header("Easy dialogs")]
     public string dialogID;
+    public bool subscribeToChanges = true;
     private void Awake() {
         UItext = GetComponent<Text>();
-        if(!customConfig) return;
-        text = initialText;
-        if(font != null) font = initialFont;
-        alignment = initialAlignment;
-        color = initialColor;
     }
     void Start()
     {
+        GetDialog();
+        if(subscribeToChanges) TMW_Config.dialogsDataChanged += GetDialog;
+    }
+
+    void GetDialog() {
         if(dialogID != "" && SceneManager.dialogs != null) text = SceneManager.dialogs.GetDialog(dialogID);
     }
 }

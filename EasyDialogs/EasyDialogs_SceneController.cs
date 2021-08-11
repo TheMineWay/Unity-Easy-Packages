@@ -28,7 +28,7 @@ public class EasyDialogs_SceneController : MonoBehaviour
     public bool missResistance; // Load a base language in order to controll missing dialogs (recommended if there is more than one language)
 
     /* UNITY FUNCTIONS */
-    private void Awake()
+    private void Start()
     {
         if(TMW_Kernel.configuration == null) {
             TMW_Kernel.configuration = new TMW_Config.Configuration();

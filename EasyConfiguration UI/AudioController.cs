@@ -14,6 +14,7 @@ public class AudioController : MonoBehaviour
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
+        SetVolume();
         if(audioMode == AudioMode.music) TMW_Config.musicChanged += SetVolume;
         else TMW_Config.effectsChanged += SetVolume;
     }
