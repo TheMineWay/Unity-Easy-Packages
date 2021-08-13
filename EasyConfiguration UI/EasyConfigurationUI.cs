@@ -59,6 +59,17 @@ public class EasyConfigurationUI : MonoBehaviour
         SetFPS(value);
     }
 
+    // VSYNC
+    [Header("VSYNC")]
+    public Toggle vSync;
+    void SetVSync(bool value) {
+        if(vSync != null) vSync.isOn = value;
+        OnVSyncChange(value);
+    }
+    public void OnVSyncChange(bool value) {
+        if(fps != null) fps.interactable = !value;
+    }
+
     // ANTI ALIASING
     [Header("Anti Alias")]
     public Dropdown antiAlias;
@@ -123,6 +134,7 @@ public class EasyConfigurationUI : MonoBehaviour
         SetAntiAlias(conf.antiAliasing / 2);
         SetResolution(conf.resolution);
         SetFPS(conf.fps);
+        Application.targetFrameRate = conf.fps >= 30 ? conf.fps : 60;
         if(languageSelector != null) {
             languageSelector.options.Clear();
             foreach(string lang in languages) languageSelector.options.Add(new Dropdown.OptionData(lang));
@@ -133,6 +145,9 @@ public class EasyConfigurationUI : MonoBehaviour
             foreach(string dialogID in genderIds) referalGenderSelector.options.Add(new Dropdown.OptionData(SceneManager.dialogs.GetDialog(dialogID)));
         }
         SetReferalGender(conf.referalGender);
+        SetVSync(conf.vSync);
+        if(conf.vSync) QualitySettings.vSyncCount = 1;
+        else QualitySettings.vSyncCount = 0;
     }
 
     public void Save() {
@@ -148,6 +163,7 @@ public class EasyConfigurationUI : MonoBehaviour
             SceneManager.dialogs.LoadDialogs();
             TMW_Config.dialogsDataChanged(); // Call the delegate in order to modify the existing dialogs
         }
+        if(vSync != null) TMW_Kernel.configuration.vSync = vSync.isOn;
         TMW_Kernel.configuration.Save();
         Load(); // Reloads UI
     }
