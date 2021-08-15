@@ -7,7 +7,7 @@ using System.IO;
 
 public class DialogsManagerWindow : EditorWindow
 {
-    [MenuItem("Window/Dialogs manager")]
+    [MenuItem("Window/Easy Dialogs/Dialogs manager")]
     public static void ShowWindow()
     {
         GetWindow<DialogsManagerWindow>("Dialogs manager");
@@ -37,8 +37,8 @@ public class DialogsManagerWindow : EditorWindow
             if (viewDialogsOptions)
             {
                 GUILayout.Label("Dialog file info", EditorStyles.boldLabel);
-                dialogFile.by = EditorGUILayout.TextField("Author", dialogFile.by);
-                dialogFile.name = EditorGUILayout.TextField("Name (language)", dialogFile.name);
+                dialogFile.by = EditorGUILayout.TextField("Author", dialogFile.by ?? "");
+                dialogFile.name = EditorGUILayout.TextField("Name (language)", dialogFile.name ?? "");
                 dialogFile.version = EditorGUILayout.IntField("Version", dialogFile.version);
                 dialogFile.lastUpdate = System.DateTime.Parse(EditorGUILayout.TextField("Last update (dd-mm-yyyy)", dialogFile.lastUpdate.ToString("dd-MM-yyyy")));
                 if (GUILayout.Button("Set to now")) dialogFile.lastUpdate = System.DateTime.Now;
@@ -47,7 +47,7 @@ public class DialogsManagerWindow : EditorWindow
                     // There is a dialog container
                     Separator();
                     GUILayout.Label("Dialog editor", EditorStyles.boldLabel);
-                    string newId = EditorGUILayout.TextField("Dialog ID", selectedContainer.id);
+                    string newId = EditorGUILayout.TextField("Dialog ID", selectedContainer.id ?? "");
                     if (selectedContainer.id != newId)
                     {
                         if (dialogFile.dialogs.Keys.Contains(newId))
@@ -59,8 +59,9 @@ public class DialogsManagerWindow : EditorWindow
                         dialogFile.dialogs.Add(newId, selectedContainer.dialog);
                         selectedContainer.id = newId;
                     }
-                    selectedContainer.dialog.dialog = EditorGUILayout.TextField("Dialog", selectedContainer.dialog.dialog);
-                    selectedContainer.dialog.speaker = EditorGUILayout.TextField("Speaker", selectedContainer.dialog.speaker);
+                    GUILayout.Label("Dialog content");
+                    selectedContainer.dialog.dialog = EditorGUILayout.TextArea(selectedContainer.dialog.dialog ?? "New dialog content...");
+                    selectedContainer.dialog.speaker = EditorGUILayout.TextField("Speaker", selectedContainer.dialog.speaker ?? "");
                     selectedContainer.dialog.usesGenderVariables = EditorGUILayout.Toggle("Use gender variables?", selectedContainer.dialog.usesGenderVariables);
                     if (selectedContainer.dialog.usesGenderVariables)
                     {
@@ -141,6 +142,8 @@ public class DialogsManagerWindow : EditorWindow
             Separator();
             if (GUILayout.Button($"Save changes onto \"{dialogFileInfo.Name}\"")) SaveDialogFile();
         }
+        EditorGUILayout.Space(10);
+        if(EditorGUILayout.LinkButton("GitHub repository")) Application.OpenURL("https://github.com/TheMineWay/Unity-Easy-Packages");
     }
     private void Separator(int i_height = 1, bool space = true)
     {
