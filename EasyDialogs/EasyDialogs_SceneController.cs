@@ -94,19 +94,22 @@ public class EasyDialogs_SceneController : MonoBehaviour
         return loaded;
     }
 
+    [System.Serializable]
     public class DialogFile
     {
         public int version;
+        public int totalGenders; // Genders amount. In order to standarize the array lenght
         public string name, by;
         public System.DateTime lastUpdate;
         public Dictionary<string, Dialog> dialogs; // Dialogs storage
         public Dictionary<string, string[]> genderVariables; // Gender variables storage
     }
+    [System.Serializable]
     public class Dialog
     {
         public string dialog, speaker;
-        public readonly char genderChar = '#';
-        public readonly bool usesGenderVariables = false; // False by default
+        public char genderChar = '#';
+        public bool usesGenderVariables = false; // False by default
 
         public string GetDialog()
         {
