@@ -32,3 +32,7 @@ You need a *EasyDialogs_SceneController.cs* on every scene where you are going t
 ## Easy Chatboxes
 It allows you to display *EasyDialogs* dialogs as chatboxes that use UnityEvents to handle scenarios.
 Be careful! It uses some Unity's Input behaviour. If you moved to the new Input System you'll need to open the *EasyChatbox.cs* file and read some comments.
+
+## Easy Texts
+It allows you to display dialogs without having to use custom scripts. You just need to attach the *TMW_TextObject.cs* file to a Text GameObject and specify the dialog Id.
+If you enable the toggle *subscribe to changes*, when the **language** or **referal gender** changes, the text will be updated.
