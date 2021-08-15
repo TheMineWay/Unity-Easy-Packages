@@ -14,12 +14,11 @@ public class SceneManager : MonoBehaviour
         }
 
         // Init configuration controller
-        //TMW_Kernel.configData = "ss"; // Throws error
         TMW_Config.LoadConfig();
-        //TMW_Logs.LogInfo(TMW_Kernel.configuration.resolution.width.ToString());
     }
 
     private void Update() {
+        // Old Input System. Remove if you are using the new Input System
         if(Input.GetKeyDown(KeyCode.F11)) Screen.fullScreen = !Screen.fullScreen;
     }
 }

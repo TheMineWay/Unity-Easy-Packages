@@ -25,12 +25,23 @@ public class EasyChatbox : MonoBehaviour
     /* BEHAVIOURS */
     private void Start()
     {
-        if (initOnStart) Show(true);
+        if (initOnStart) StartCoroutine(WaitUntilLoaded());
+        IEnumerator WaitUntilLoaded() {
+            yield return new WaitUntil(() => easyDialogsSceneController.Loaded());
+            Show(true);
+        }
     }
+
+    // New Input System. Uncomment if you are using the new Input System
+    /*public void OnNextDialogPressed(UnityEngine.InputSystem.InputAction.CallbackContext button) {
+        if(button.performed && autoControlls) NextDialogByUI();
+    }*/
+
     private void Update()
     {
         if (autoControlls)
         {
+            // Old input System. Remove if you are using the new Input System
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 NextDialogByUI();
@@ -85,14 +96,15 @@ public class EasyChatbox : MonoBehaviour
                 case ChatboxAnimation.fromChangingRandomOrigin:
                     string _toDisplay = "";
                     string rand = "";
-                    for(int i = 0; i < _dialog.Length; i++) {
+                    for (int i = 0; i < _dialog.Length; i++)
+                    {
                         yield return new WaitForSeconds(animationTiming);
                         _toDisplay += _dialog[i];
                         rand = "";
-                        for(int j = i + 1; j < _dialog.Length; j++) rand += (Random.Range(0,2) == 0 ? letters[Random.Range(0,letters.Length)].ToString().ToUpper() : letters[Random.Range(0,letters.Length)].ToString());
+                        for (int j = i + 1; j < _dialog.Length; j++) rand += (Random.Range(0, 2) == 0 ? letters[Random.Range(0, letters.Length)].ToString().ToUpper() : letters[Random.Range(0, letters.Length)].ToString());
                         UI_text.text = _toDisplay + rand;
                     }
-                break;
+                    break;
             }
             chatbox.onEnd.Invoke(); // Trigger on end event
             displayer = null;
@@ -110,7 +122,7 @@ public class EasyChatbox : MonoBehaviour
     }
     public void NextDialogByUI()
     {
-        if (displayer == null) if(chatbox.locked) return; else NextDialog();
+        if (displayer == null) if (chatbox.locked) return; else NextDialog();
         else
         {
             StopCoroutine(displayer);
