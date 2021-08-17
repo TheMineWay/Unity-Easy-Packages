@@ -161,7 +161,7 @@ public class EasyConfigurationUI : MonoBehaviour
         if (referalGenderSelector != null) TMW_Kernel.configuration.referalGender = (TMW_Config.ReferalGender)referalGenderSelector.value;
         if (languageSelector != null || referalGenderSelector != null) {
             SceneManager.dialogs.LoadDialogs();
-            TMW_Config.dialogsDataChanged(); // Call the delegate in order to modify the existing dialogs
+            if(TMW_Config.dialogsDataChanged != null) TMW_Config.dialogsDataChanged(); // Call the delegate in order to modify the existing dialogs
         }
         if(vSync != null) TMW_Kernel.configuration.vSync = vSync.isOn;
         TMW_Kernel.configuration.Save();

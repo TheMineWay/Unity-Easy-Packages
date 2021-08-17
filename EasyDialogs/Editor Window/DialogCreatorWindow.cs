@@ -5,6 +5,7 @@ using UnityEditor;
 using System.IO;
 using Newtonsoft.Json;
 
+# if UNITY_EDITOR
 public class DialogCreatorWindow : EditorWindow
 {
     [MenuItem("Window/Easy Dialogs/Dialog creator")]
@@ -40,3 +41,4 @@ public class DialogCreatorWindow : EditorWindow
         File.WriteAllText(path, JsonConvert.SerializeObject(dialogFile));
     }
 }
+# endif

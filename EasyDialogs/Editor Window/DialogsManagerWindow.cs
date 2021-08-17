@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using UnityEditor;
 using System.IO;
 
+# if UNITY_EDITOR
 public class DialogsManagerWindow : EditorWindow
 {
     [MenuItem("Window/Easy Dialogs/Dialogs manager")]
@@ -255,3 +256,4 @@ public class DialogsManagerWindow : EditorWindow
         }
     }
 }
+# endif
